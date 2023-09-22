@@ -1,0 +1,280 @@
+set ansi_nulls on
+go
+set ansi_padding on
+go
+set quoted_identifier on
+go
+create database [Zoo_BD]
+go
+use [Zoo_BD]
+go
+
+
+create table [dbo].[Provider]
+(
+	[ID_Provider] [int] not null identity(1,1),
+	[Name_Company] [varchar] (50) not null
+	constraint [PK_Provider] primary key clustered
+	([ID_Provider] ASC) on [PRIMARY],
+	constraint [UQ_Name_Company_Providert] unique ([Name_Company])
+)
+go
+
+insert into [dbo].[Provider] ([Name_Company])
+values  ('Topmiska'), ('Lesaffre')
+go
+
+select * from [Provider];
+
+create table [dbo].[Type_Product]
+(
+	[ID_Type_Product] [int] not null identity(1,1),
+	[Name_Type] [varchar] (50) not null
+	constraint [PK_Type_Product] primary key clustered
+	([ID_Type_Product] ASC) on [PRIMARY],
+	constraint [UQ_Name_Type_Type_Product] unique ([Name_Type])
+)
+go
+
+insert into [dbo].[Type_Product] ([Name_Type])
+values  ('Премиум'), ('Супер-Премиум'), ('Эконом'), ('Холистики')
+go
+
+select * from [Type_Product];
+
+create table [dbo].[Animal_Class]
+(
+	[ID_Animal_Class] [int] not null identity(1,1),
+	[Name_Animal_Class] [varchar] (50) not null
+	constraint [PK_Animal_Class] primary key clustered
+	([ID_Animal_Class] ASC) on [PRIMARY],
+	constraint [UQ_Name_Animal_Class_Animal_Class] unique ([Name_Animal_Class])
+)
+go
+
+insert into [dbo].[Animal_Class] ([Name_Animal_Class])
+values  ('Насекомые'), ('Земноводные'), ('Птицы'), ('Моллюски'), ('Млекопитающие'), ('Паукообразные'), ('Рыбы'), ('Пресмыкающие')
+go
+
+select * from [Animal_Class];
+
+create table [dbo].[Role]
+(
+	[ID_Role] [int] not null identity(1,1),
+	[Name_Role] [varchar] (50) not null
+	constraint [PK_Role] primary key clustered
+	([ID_Role] ASC) on [PRIMARY],
+	constraint [UQ_Role_Role] unique ([Name_Role])
+)
+go
+
+insert into [dbo].[Role] ([Name_Role])
+values  ('Ветеринар'), ('Дрессировщик'), ('Администратор')
+go
+
+select * from [Role];
+
+create table [dbo].[Warehouse_Products] --склад
+(
+	[ID_Warehouse_Products] [int] not null identity(1,1),
+	[Name_Product] [varchar] (50) not null,
+	[Quantity_Products] [int] not null,
+	[Sall] [int] not null, --цена
+	[Provider_ID] [int] not null,
+	[Type_Product_ID] [int] not null
+	constraint [PK_Warehouse_Products] primary key clustered
+	([ID_Warehouse_Products] ASC) on [PRIMARY],
+	constraint [FK_Provider_Warehouse_Products] foreign key ([Provider_ID]) references [dbo].[Provider] ([ID_Provider]),
+	constraint [FK_Type_Product_Warehouse_Products] foreign key ([Type_Product_ID]) references [dbo].[Type_Product] ([ID_Type_Product])
+)
+go
+
+insert into [dbo].[Warehouse_Products] ([Name_Product],[Quantity_Products],[Sall],[Provider_ID],[Type_Product_ID])
+values  ('Kitekat',1,1,1,1),
+('Whiskas',1,1,2,2)
+go
+
+select * from [Warehouse_Products];
+
+create table [dbo].[Staff]
+(
+	[ID_Staff] [int] not null identity(1,1),
+	[Name] [varchar] (50) not null,
+	[Surname] [varchar] (50) not null,
+	[Patronymic] [varchar] (50) not null,
+	[Login] [varchar] (50) not null,
+	[Password] [varchar] (50) not null,
+	[Role_ID] [int] not null	
+	constraint [PK_Staff] primary key clustered
+	([ID_Staff] ASC) on [PRIMARY],
+	constraint [FK_Role_Staff] foreign key ([Role_ID]) references [dbo].[Role] ([ID_Role]),
+	constraint [UQ_Login_Staff] unique ([Login])
+)
+go
+
+insert into [dbo].[Staff] ([Name],[Surname],[Patronymic],[Login],[Password],[Role_ID])
+values  ('Сергей','Радионович','Иванович','S_Rad','S_Rad',1),
+('Сергей','Яковлев','Иванович','S_Yia','S_Yia',2),
+('Сергей','Марковкив','Иванович','S_Mar','S_Mar',3)
+go
+
+select * from [Staff];
+
+create table [dbo].[Animals]
+(
+	[ID_Animals] [int] not null identity(1,1),
+	[Name_Animals] [varchar] (50) not null,
+	[Animal_Class_ID] [int] not null,
+	[Height] [int] not null,
+	[Weight] [int] not null
+	constraint [PK_Animals] primary key clustered
+	([ID_Animals] ASC) on [PRIMARY],
+	constraint [FK_Animal_Class_Animals] foreign key ([Animal_Class_ID]) references [dbo].[Animal_Class] ([ID_Animal_Class])
+)
+go
+
+insert into [dbo].[Animals] ([Name_Animals],[Animal_Class_ID],[Height],[Weight])
+values  ('Кошка',5,40,5),
+('Собака',5,50,15)
+go
+
+update Animals 
+set Name_Animals = 'Кошка',
+Animal_Class_ID = 5,
+Height = 50,
+Weight = 4
+where ID_Animals = 1
+
+select * from [Animals];
+
+create table [dbo].[Nutrition]
+(
+	[ID_Nutrition] [int] not null identity(1,1),
+	[Meal_Serving_Time] [time] not null,
+	[Quantity_Grams] [int] not null,
+	[Animals_ID] [int] not null,
+	[Warehouse_Products_ID] [int] not null
+	constraint [PK_Nutrition] primary key clustered
+	([ID_Nutrition] ASC) on [PRIMARY],
+	constraint [FK_Animals_Nutrition] foreign key ([Animals_ID]) references [dbo].[Animals] ([ID_Animals]),
+	constraint [FK_Warehouse_Products_Nutrition] foreign key ([Warehouse_Products_ID]) references [dbo].[Warehouse_Products] ([ID_Warehouse_Products])
+)
+go
+
+insert into [dbo].[Nutrition] ([Meal_Serving_Time],[Quantity_Grams],[Animals_ID],[Warehouse_Products_ID])
+values  ('12:00:12',5,1,1),
+('03:22:12',5,1,1)
+go
+
+select * from [Nutrition];
+
+create table [dbo].[Actual_Nutrition]
+(
+	[ID_Actual_Nutrition] [int] not null identity(1,1),
+	[Date_Time] [datetime] not null,
+	[Nutrition_ID] [int] not null,
+	[Staff_ID] [int] not null
+	constraint [PK_Actual_Nutrition] primary key clustered
+	([ID_Actual_Nutrition] ASC) on [PRIMARY],
+	constraint [FK_Nutrition_Actual_Nutrition] foreign key ([Nutrition_ID]) references [dbo].[Nutrition] ([ID_Nutrition]),
+	constraint [FK_Staff_Actual_Nutrition] foreign key ([Staff_ID]) references [dbo].[Staff] ([ID_Staff])
+)
+go
+
+insert into [dbo].[Actual_Nutrition] ([Date_Time],[Nutrition_ID],[Staff_ID])
+values  ('11/10/2022 12:00:12',1,1),
+('13/11/2020 03:22:12',2,2)
+go
+
+select * from [Actual_Nutrition];
+
+create table [dbo].[Medical_History]
+(
+	[ID_Medical_History] [int] not null identity(1,1),
+	[Date_Begin_Disease] [date] not null,
+	[Date_End_Disease] [date] not null,
+	[Name_Disease] [varchar] (50) not null,
+	[Name_Vaccine] [varchar] (50) not null,
+	[Staff_ID] [int] not null,
+	[Animals_ID] [int] not null
+	constraint [PK_Medical_History] primary key clustered
+	([ID_Medical_History] ASC) on [PRIMARY],
+	constraint [FK_Staff_Medical_History] foreign key ([Staff_ID]) references [dbo].[Staff] ([ID_Staff]),
+	constraint [FK_Animals_Medical_History] foreign key ([Animals_ID]) references [dbo].[Animals] ([ID_Animals])
+)
+go
+
+insert into [dbo].[Medical_History] ([Date_Begin_Disease],[Date_End_Disease],[Name_Disease],[Name_Vaccine],[Staff_ID],[Animals_ID])
+values  ('2022/10/04','2022/10/13','Цистит','Цистит',1,1),
+('2020/11/10','2020/11/18','Лишай','Лишай',2,2)
+go
+
+select * from [Medical_History];
+
+
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.TABLES
+select * from Animal_Class
+
+
+--exec [Animals_Animal_Class_into] 'Собака','Земноводные',50,15;
+create procedure [dbo].[Animals_Animal_Class_into]
+@Name_Animals [varchar] (50),
+@Name_Animal_Class [varchar] (50),
+@Height [int],
+@Weight [int]
+as 
+	begin try
+	insert into Animals ([Name_Animals],[Animal_Class_ID],[Height],[Weight])
+	values (
+	@Name_Animals,
+	(select ID_Animal_Class from Animal_Class where Name_Animal_Class = @Name_Animal_Class),
+	@Height,
+	@Weight
+	)
+	end try
+	begin catch
+		print('Данные несогласованны!')
+	end catch
+go
+create procedure [dbo].[Warehouse_Products_Provider_ID_Type_Product_ID_into]
+@Name_Product [varchar] (50),
+@Quantity_Products [int],
+@Sall [int],
+@Name_Company [varchar] (50),
+@Name_Type [varchar] (50)
+as 
+	begin try
+	insert into Warehouse_Products ([Name_Product],[Quantity_Products],[Sall],[Provider_ID],[Type_Product_ID])
+	values (
+	@Name_Product,@Quantity_Products,@Sall,
+	(select ID_Provider from Provider where Name_Company = @Name_Company),
+	(select ID_Type_Product from Type_Product where Name_Type = @Name_Type)
+	)
+	end try
+	begin catch
+		print('Данные несогласованны!')
+	end catch
+go
+
+create procedure [dbo].[Staff_Role_ID_into]
+@Name [varchar] (50),
+@Surname [varchar] (50),
+@Patronymic [varchar] (50),
+@Login [varchar] (50),
+@Password [varchar] (50),
+@Name_Role [varchar] (50)
+as 
+	begin try
+	insert into Staff ([Name],[Surname],[Patronymic],[Login],[Password],[Role_ID])
+	values (
+	@Name,@Surname,@Patronymic,@Login,@Password,
+	(select ID_Role from Role where Name_Role = @Name_Role)
+	)
+	end try
+	begin catch
+		print('Данные несогласованны!')
+	end catch
+go
+
+select ID_Animal_Class from Animal_Class where Name_Animal_Class = 'Птицы';

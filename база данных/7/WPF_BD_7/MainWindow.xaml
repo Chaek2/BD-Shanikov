@@ -1,0 +1,137 @@
+﻿<Window x:Class="WPF_BD_7.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_BD_7"
+        xmlns:ms ="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="821">
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="700"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="gr1" Content="Поставка" Grid.Column="1" Grid.Row="1" Click="Button_Click_14" IsEnabled="False"/>
+        <Button x:Name="gr2" Content="Меню" Grid.Column="1" Grid.Row="2" Click="Button_Click"/>
+        <Button x:Name="gr3" Content="Компонент" Grid.Column="1" Grid.Row="3" Click="Button_Click_1"/>
+        <Button x:Name="gr4" Content="Поставщик" Grid.Column="1" Grid.Row="4" Click="Button_Click_2"/>
+        <Grid x:Name="_G1" Grid.RowSpan="6" Background="LightSlateGray" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="_dg_supply" Grid.ColumnSpan="6" Grid.RowSpan="6" ColumnWidth="699" SelectionChanged="_bd_dg_supply"/>
+            <TextBox x:Name="_supply" Grid.Row="6"/>
+            <Button Content="add_supply" Grid.Column="1" Grid.Row="6" Click="Button_Click_3"/>
+            <Button Content="update_supply" Grid.Column="2" Grid.Row="6" Click="Button_Click_4"/>
+            <Button Content="delete_supply" Grid.Column="3" Grid.Row="6" Click="Button_Click_5"/>
+        </Grid>
+        <Grid x:Name="_G2" Grid.RowSpan="6" Background="LightSlateGray" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="_dg_menu" Grid.ColumnSpan="6" Grid.RowSpan="6" ColumnWidth="699" SelectionChanged="_bd_dg_menu"/>
+            <TextBox x:Name="_menu" Grid.Row="6"/>
+            <Button Content="add_menu" Grid.Column="1" Grid.Row="6" Click="Button_Click_6"/>
+            <Button Content="update_menu" Grid.Column="2" Grid.Row="6" Click="Button_Click_7"/>
+            <Button Content="delete_menu" Grid.Column="3" Grid.Row="6" Click="Button_Click_8"/>
+        </Grid>
+        <Grid x:Name="_G3" Grid.RowSpan="6" Background="LightSlateGray" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="_dg_component" Grid.ColumnSpan="6" Grid.RowSpan="6"  ColumnWidth="345" SelectionChanged="_bd_dg_component"/>
+            <TextBox x:Name="_component" Grid.Row="6"/>
+            <ms:IntegerUpDown x:Name="_int_component" Grid.Column="1" Grid.Row="6" FontSize="22" />
+            <Button Content="add_component" Grid.Column="2" Grid.Row="6" Click="Button_Click_9"/>
+            <Button Content="update_component" Grid.Column="3" Grid.Row="6" Click="Button_Click_11"/>
+            <Button Content="delete_component" Grid.Column="4" Grid.Row="6" Click="Button_Click_10"/>
+        </Grid>
+        <Grid x:Name="_G4" Grid.RowSpan="6" Background="LightSlateGray" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Полное название организации" Grid.Row="2" TextWrapping="Wrap"/>
+            <TextBlock Text="Сокращённое название организации" Grid.Row="3" TextWrapping="Wrap"/>
+            <TextBlock Text="ИНН" Grid.Row="4"/>
+            <TextBlock Text="ОКПО" Grid.Row="5"/>
+            <TextBlock Text="БИК" Grid.Row="6"/>
+            <TextBlock Text="Физический адрес" Grid.Row="7"/>
+            <TextBlock Text="Юредический адрес" Grid.Row="8"/>
+            <TextBox x:Name="_sp_All" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"/>
+            <TextBox x:Name="_sp_Short" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3"/>
+            <TextBox x:Name="_sp_ITN" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4"/>
+            <TextBox x:Name="_sp_OKPO" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5"/>
+            <TextBox x:Name="_sp_BIC" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6"/>
+            <TextBox x:Name="_sp_Fis_" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7"/>
+            <TextBox x:Name="_sp_Sec" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="8"/>
+            <DataGrid x:Name="_dg_supplier_Company" Grid.Column="3" Grid.ColumnSpan="4" Grid.RowSpan="7" SelectionChanged="_bd_dg_suppliercpmpany"/>
+            <Button Content="add_men" Grid.Column="4" Grid.Row="8" Click="Button_Click_12"/>
+            <Button Content="update_men" Grid.Column="5" Grid.Row="8" Click="Button_Click_15"/>
+            <Button Content="delete_men" Grid.Column="6" Grid.Row="8" Click="Button_Click_13"/>
+        </Grid>
+    </Grid>
+</Window>
